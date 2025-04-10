@@ -1,8 +1,9 @@
 from dotenv import load_dotenv
+import os
 from openai import OpenAI
 
 load_dotenv()
-
+OpenAI.api_key = os.getenv("OPENAI_API_KEY")
 client = OpenAI()
 
 text = "Eiffel Tower is in Paris and is a famous landmark, it is 324 meters tall"

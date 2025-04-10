@@ -4,3 +4,9 @@ https://arxiv.org/pdf/1706.03762
 https://poloclub.github.io/transformer-explainer/
 
 https://www.trryst.com/
+https://github.com/marketplace/models
+
+https://github.com/piyushgarg-dev/genai-cohort
+https://fal.ai/
+
+https://platform.openai.com/docs/guides/reasoning?api-mode=chat
