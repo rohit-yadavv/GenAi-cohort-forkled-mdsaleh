@@ -4,6 +4,13 @@ from dotenv import load_dotenv
 from openai import OpenAI
 import requests
 
+#*   json.dumps() ---> Convert Python object to JSON string.   This is useful when you want to store or transmit data in JSON format.
+
+#*  json.loads() ---> Convert JSON string to Python object.   Useful for reading JSON strings (e.g., from a file or API response) into Python dictionaries.
+
+# indent in json.dumps() ---> The indent parameter defines how many spaces to use for pretty-printing (formatting) the JSON string.
+
+
 load_dotenv()
 OpenAI.api_key = os.getenv("OPENAI_API_KEY")
 client = OpenAI()

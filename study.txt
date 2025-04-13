@@ -24,6 +24,8 @@ https://openrouter.ai/
 https://console.groq.com/dashboard/limits
 
 
+https://lmstudio.ai/blog/introducing-lmstudio-sdk
+
 https://github.com/chubin/wttr.in
 https://wttr.in/
 https://streamlit.io/
