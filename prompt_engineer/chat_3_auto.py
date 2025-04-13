@@ -35,6 +35,7 @@ Output: {{ step: "validate", content: "seems like 4 is correct ans for 2 + 2" }}
 Output: {{ step: "result", content: "2 + 2 = 4 and that is calculated by adding all numbers" }}
 
 """
+# parsing me issue dega isliye double curly braces me likha hai. eg: Output: {{ step: "result", content: "2 + 2 = 4 and that is calculated by adding all numbers" }}
 
 messages = [
     { "role": "system", "content": system_prompt },
@@ -47,7 +48,7 @@ messages.append({ "role": "user", "content": query })
 
 while True:
     response = client.chat.completions.create(
-        model="gpt-4o",
+        model="gpt-3.5-turbo",
         response_format={"type": "json_object"},
         messages=messages
     )

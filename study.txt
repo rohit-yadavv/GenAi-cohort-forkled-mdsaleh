@@ -10,3 +10,20 @@ https://github.com/piyushgarg-dev/genai-cohort
 https://fal.ai/
 
 https://platform.openai.com/docs/guides/reasoning?api-mode=chat
+
+Gemini API Cookbook
+    https://github.com/google-gemini/cookbook?tab=readme-ov-file
+    https://github.com/google-gemini/generative-ai-js
+    https://github.com/dqbd/tiktokenizer/blob/master/src/models/tokenizer.ts#L122
+    https://github.com/googleapis/python-genai
+
+    https://github.com/openai/openai-python
+    https://github.com/openai/openai-node
+
+https://openrouter.ai/
+https://console.groq.com/dashboard/limits
+
+
+https://github.com/chubin/wttr.in
+https://wttr.in/
+https://streamlit.io/

@@ -37,13 +37,13 @@ Output: {{ step: "result", content: "2 + 2 = 4 and that is calculated by adding 
 """
 
 result = client.chat.completions.create(
-    model="gpt-4o",
+    model="gpt-3.5-turbo",
     response_format={"type": "json_object"},
     messages=[
         { "role": "system", "content": system_prompt },
         { "role": "user", "content": "what is 3 + 4 * 5" },
 
-        # 
+        # ye output print hua hai terminal me ye manual process hai so humne automatic kardiya 'chat_3_auto.py' file me
         { "role": "assistant", "content": json.dumps({"step": "analyse", "content": "The user is asking for an arithmetic operation that involves both addition and multiplication, so I need to follow the order of operations."})  },
         { "role": "assistant", "content": json.dumps({"step": "think", "content": "In order of operations, multiplication should be performed before addition. Therefore, I should first multiply 4 by 5."}) },
         { "role": "assistant", "content": json.dumps({"step": "think", "content": "Calculate the multiplication: 4 * 5 = 20."}) },

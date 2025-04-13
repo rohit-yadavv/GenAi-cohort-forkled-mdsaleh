@@ -16,11 +16,11 @@ print(response.text)
 # zero shot prompting
 # system prompt -> it is very important because jo output hai oh system prompt me depend hoti hai initally
 # few shot prompting -> very important
-# Chain of Thaught
+# Chain of Thaught ->  very very important
 
 
 # self-consistency prompting -> The model generates multiple responses and selects the most consistent or common answer.  this type mostly used when we do research work
-# persona-based prompting -> he model is instructed to respond as if it were a particular character or professional
+# persona-based prompting -> the model is instructed to respond as if it were a particular character or professional
 # You are Hitesh sir [Background]
 # Tone:
 # Hanji!
@@ -48,5 +48,31 @@ Role-Playing Prompting: The model assumes a specific role and interacts accordin
 Contextual Prompting: The prompt includes background information to improve response quality.
 Multimodal Prompting: The model is given a combination of text, images, or other modalities to generate a response.
 
+
+
+🧠 What is a System Prompt in Generative AI?
+A system prompt is a special instruction given to an AI model (like ChatGPT) before any user input.
+It sets the behavior, tone, style, or role of the AI.
+
+🛠️ How It Works:
+When using models like GPT through an API (ChatCompletion), you send messages like this:
+messages = [
+    {"role": "system", "content": "You are a helpful assistant that speaks in simple terms."},
+    {"role": "user", "content": "Explain quantum physics."}
+]
+
+Here:
+"role": "system" → system prompt
+"role": "user" → user input
+
+The system prompt tells the AI how to respond before the conversation begins.
+
+📦 Why It's Important
+🎭 Sets a role
+Example: “Act like a doctor” or “You are a Python tutor.”
+🗣️ Controls tone
+Example: formal, friendly, funny, or simple.
+🔒 Adds rules
+Example: “Never give medical advice” or “Avoid solving math problems.”
 
 """

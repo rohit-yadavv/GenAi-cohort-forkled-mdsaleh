@@ -26,7 +26,7 @@ Output: Bruh? You alright? Is it maths query?
 """
 
 result = client.chat.completions.create(
-    model="gpt-4",
+    model="gpt-3.5-turbo",
     messages=[
         { "role": "system", "content": system_prompt },
         { "role": "user", "content": "what is a mobile phone?" }
