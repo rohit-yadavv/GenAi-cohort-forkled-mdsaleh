@@ -1,0 +1,15 @@
+Main blogs you must read:
+    1. https://platform.openai.com/docs/guides/prompt-engineering#tactic-include-details-in-your-query-to-get-more-relevant-answers
+    2. https://github.blog/engineering/platform-security/finding-leaked-passwords-with-ai-how-we-built-copilot-secret-scanning/
+    3. https://discord.com/blog/how-discord-stores-billions-of-messages
+    4. https://discord.com/blog/how-discord-stores-trillions-of-messages
+    5. https://discord.com/blog/how-discord-handles-two-and-half-million-concurrent-voice-users-using-webrtc
+    6. https://developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability/
+    7. https://developers.googleblog.com/en/agent-development-kit-easy-to-build-multi-agent-applications/
+    8. https://aws.amazon.com/blogs/compute/messaging-fanout-pattern-for-serverless-architectures-using-amazon-sns/
+
+
+Others:
+    1. https://blog.bytebytego.com/p/79-engineering-blogs-to-level-up
+    2. https://developers.googleblog.com/en/
+    3. https://github.blog/engineering/

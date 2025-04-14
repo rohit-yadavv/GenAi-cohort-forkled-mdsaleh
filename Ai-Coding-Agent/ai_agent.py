@@ -249,12 +249,12 @@ system_prompt = f"""
     Output: {{ "step": "observe", "content": "Vite project created. Next: install dependencies."}}
     Output: {{ "step": "action", "function": "run_command", "input": "cd my-app && npm install" }}
     Output: {{
-    "step": "action",
-    "function": "write_file",
-    "input": {{
-        "path": "my-app/src/App.tsx",
-        "content": "export default function App() {{\n  return <h1>Hello, Vite + React + TypeScript!</h1>;\n}}"
-    }}
+        "step": "action",
+        "function": "write_file",
+        "input": {{
+            "path": "my-app/src/App.tsx",
+            "content": "export default function App() {{\n  return <h1>Hello, Vite + React + TypeScript!</h1>;\n}}"
+        }}
     }}
     Output: {{ "step": "action", "function": "run_command", "input": "npm run dev"}}
 
