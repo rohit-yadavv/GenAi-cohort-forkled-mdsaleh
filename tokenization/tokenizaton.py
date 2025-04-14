@@ -1,6 +1,5 @@
 import tiktoken
-
-
+print(tiktoken.__version__)
 encoder = tiktoken.encoding_for_model('gpt-4o')
 
 print("Vocab Size", encoder.n_vocab) # 2,00,019 (200K)

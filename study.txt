@@ -24,6 +24,8 @@ Gemini API Cookbook
 https://openrouter.ai/
 https://console.groq.com/dashboard/limits
 
+https://github.com/jwala-anirudh/GenAI
+
 https://fumadocs.vercel.app/docs/ui
 https://github.com/fuma-nama/fumadocs
 
@@ -32,3 +34,9 @@ https://lmstudio.ai/blog/introducing-lmstudio-sdk
 https://github.com/chubin/wttr.in
 https://wttr.in/
 https://streamlit.io/
+
+https://ai.google.dev/gemini-api/docs/openai
+https://docs.anthropic.com/en/api/openai-sdk
+
+https://replicate.com/
+https://sandpack.codesandbox.io/
