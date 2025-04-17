@@ -40,3 +40,6 @@ https://docs.anthropic.com/en/api/openai-sdk
 
 https://replicate.com/
 https://sandpack.codesandbox.io/
+
+https://www.pinecone.io/
+https://hub.docker.com/r/qdrant/qdrant
