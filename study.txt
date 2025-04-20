@@ -43,3 +43,5 @@ https://sandpack.codesandbox.io/
 
 https://www.pinecone.io/
 https://hub.docker.com/r/qdrant/qdrant
+
+####  https://docs.astral.sh/uv/getting-started/installation/  #####

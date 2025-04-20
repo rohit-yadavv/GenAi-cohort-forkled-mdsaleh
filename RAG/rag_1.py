@@ -65,3 +65,11 @@ Context:
 {relevant_chunks}
 """
 
+
+
+# https://cookbook.openai.com/examples/responses_api/responses_api_tool_orchestration
+# Topics for blogs
+# Parallel Query Retrial (fan out), 
+# Reciprocate Rank Fusion,
+# Step Back Prompting (algo),
+# CoT - Chain of Thought, HyDE - Hypothetical Document Embeddings
