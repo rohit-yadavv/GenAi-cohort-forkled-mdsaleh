@@ -45,3 +45,14 @@ https://www.pinecone.io/
 https://hub.docker.com/r/qdrant/qdrant
 
 ####  https://docs.astral.sh/uv/getting-started/installation/  #####
+
+https://github.com/mem0ai/mem0/blob/main/mem0/configs/prompts.py
+https://python.langchain.com/docs/tutorials/graph/
+https://python.langchain.com/docs/how_to/graph_constructing/#:~:text=To%20define%20the%20graph%20schema,type%2C%20and%20the%20target%20node.&text=For%20a%20better%20understanding%20of,we%20can%20again%20visualize%20it.
+
+https://the-pocket.github.io/PocketFlow/
+https://python.langchain.com/docs/integrations/document_loaders/web_base/
+https://ai.google.dev/gemini-api/docs/embeddings#python
+
+https://posthog.com/pricing
+https://roluquec.medium.com/how-to-developing-my-first-chrome-extension-aaf69f84f591
