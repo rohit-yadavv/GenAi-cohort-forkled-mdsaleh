@@ -11,15 +11,13 @@ client = OpenAI(
     api_key=api_key
 )
 
-# https://smith.langchain.com/hub
-
 """
-    Step 0 - Create and store vector embeddings of pdf document
-    Step 1 - User gives prompt
+    Step 0 - Create and store vector embeddings of pdf document -  which is already done
+    Step 1 - User gives prompt 
     Step 2 - Create System prompt, and generate multiple user prompts
-    Step 3. Create vector embeddings of each query and perform similarity search with vector database.
-    Step 4. Ranking Relevant Chunks
-    Step 5. Use relevant chunks to generate response for original user query
+    Step 3 - Create vector embeddings of each query and perform similarity search with vector database.
+    Step 4 - Filter out all unique chunks(Remove duplicates)
+    Step 5 - Use relevant chunks to generate response for original user query
 """
 
 def generate_different_user_prompt(user_input, num_variants=3):
@@ -87,7 +85,7 @@ def get_similar_chunks_from_document(user_input):
     for prompt in ai_prompts:
         print(prompt)
 
-    relevant_chunks_search = [] #  list of lists of chunks
+    relevant_chunks_search = []
     print("\n\n🔍 Retrieving relevant chunks for each query...\n")
     for prompt in ai_prompts:
         relevant_chunks = retriver.similarity_search(
@@ -95,39 +93,11 @@ def get_similar_chunks_from_document(user_input):
         )
         relevant_chunks_search.append(relevant_chunks)
     # print(relevant_chunks_search)
-
     return relevant_chunks_search
 
 
-def reciprocal_rank_fusion_algo(rankings, k=60):
-    scores = {}  #  stores the RRF score for each document.
-    doc_lookup = {}  # maps a document ID to the actual Document so we can return the full object at the end.
-    for ranking in rankings:
-        for rank, doc in enumerate(ranking):
-            doc_id = (doc.page_content, doc.metadata.get("page")) # Create a hashable ID (tuple of content and page for uniqueness)
-            scores[doc_id] = scores.get(doc_id, 0)+1/(k+ rank + 1)
-            doc_lookup[doc_id] = doc  # Keep a reference to retrieve full doc later
-    
-    # print("Scores: ", scores)
-    # print("ID: ", doc_lookup[doc_id])
-    # print("Doc lookup: ", doc_lookup)
 
-    # Sort by RRF score (high to low)
-    sorted_docs = sorted(scores.items(), key=lambda x: x[1], reverse=True)
-    print(sorted_docs)
-
-    # Deduplicate: keep only best-scoring doc per page
-    seen_pages = set()
-    final_docs = []
-    for doc_id, _ in sorted_docs:
-        # print("id: ", doc_id)
-        page = doc_id[1] # sorted_docs is tuple so that tuple 1st index position which is page number
-        if page not in seen_pages:
-            final_docs.append(doc_lookup[doc_id])
-            seen_pages.add(page)
-    return final_docs
-
-def reciprocal_rank_fusion():
+def parallel_query_retrieval():
     while True:
         user_input = input("💻 >> ")
         if user_input.lower() in ["exit", "quit"]:
@@ -135,25 +105,26 @@ def reciprocal_rank_fusion():
 
         similar_chunks = get_similar_chunks_from_document(user_input)
         print("\n\n🧹 Filtering unique chunks...\n")
-        
-        # reciprocal_rank_fusion_algo(similar_chunks)
-        fused_docs = reciprocal_rank_fusion_algo(similar_chunks)
-        
-        for i, doc in enumerate(fused_docs[:5]):  # Print top 5 results with page numbers
-            print(f"\n🔹 Rank {i+1} (Page {doc.metadata.get('page')}):\n{doc.page_content}\n")
+        seen_ids = set()
+        unique_chunks = []
 
-        # Combine top docs as context text
-        context_text = "\n\n".join([
-            f"[Page {doc.metadata.get('page', 'Unknown')}]\n{doc.page_content}"
-            for doc in fused_docs[:5]
-        ])
+        for chunk in similar_chunks: # can be nested list
+            for doc in chunk:
+                doc_id = doc.metadata["_id"] 
+                if doc_id not in seen_ids:
+                    seen_ids.add(doc_id)
+                    unique_chunks.append(doc)
+                    page_number = doc.metadata.get("page")
+                    print(f"[Page {page_number}]: {doc.page_content}")
 
+        print("\n\n✨ Generating comprehensive answer...\n")
+        context_text = "\n\n".join(
+            [f"[Page {doc.metadata.get('page')}]: {doc.page_content}" for doc in unique_chunks]
+        )
         SYSTEM_PROMPT = f"""
-        You are a helpful AI assistant. Answer the question **only using the context below**.
-        If the context does not contain enough information, reply with:
-        "I don't know based on the document."
-
-        Include the **exact page number** if information is found.
+        You are an helpfull AI Assistant who responds base on the available context
+        If the answer is not found in the context, reply with "I don't know based on the document.
+        Give the page number also from where answer is got and it should be accurate
 
         
         Question:
@@ -174,5 +145,4 @@ def reciprocal_rank_fusion():
         print("Answer -----> ", response.choices[0].message.content)
         
 
-
-reciprocal_rank_fusion()
+parallel_query_retrieval()

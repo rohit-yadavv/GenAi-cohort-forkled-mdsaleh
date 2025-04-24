@@ -9,7 +9,7 @@ from langchain_qdrant import QdrantVectorStore
 load_dotenv()
 
 
-pdf_path = Path(__file__).parent / "1706.03762v7.pdf"
+pdf_path = Path(__file__).parent / "nodejs.pdf"
 # print(pdf_path)
 
 loader = PyPDFLoader(file_path=pdf_path)
@@ -38,7 +38,7 @@ embedder = OpenAIEmbeddings(
 # vector_store = QdrantVectorStore.from_documents(
 #     documents=[],
 #     url="http://localhost:6333",
-#     collection_name="learning_langchain_PQR",
+#     collection_name="learning_langchain_PQR_node",
 #     embedding=embedder
 # )
 
@@ -47,7 +47,7 @@ embedder = OpenAIEmbeddings(
 
 retriver = QdrantVectorStore.from_existing_collection(
     url="http://localhost:6333",
-    collection_name="learning_langchain_PQR",
+    collection_name="learning_langchain_PQR_node",
     embedding=embedder
 )
 
