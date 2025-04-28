@@ -56,3 +56,18 @@ https://ai.google.dev/gemini-api/docs/embeddings#python
 
 https://posthog.com/pricing
 https://roluquec.medium.com/how-to-developing-my-first-chrome-extension-aaf69f84f591
+
+#######------------  https://smith.langchain.com/hub ######---------------
+
+https://github.com/anthropics/anthropic-cookbook/tree/main/skills/contextual-embeddings
+https://www.postman.com/linkedin-developer-apis
+
+https://docs.mem0.ai/open-source/python-quickstart
+
+########  https://python.langchain.com/docs/tutorials/graph/ #############
+
+https://clickhouse.com/
+https://min.io/
+https://www.langchain.com/langsmith
+https://langfuse.com/
+https://langfuse.com/self-hosting
