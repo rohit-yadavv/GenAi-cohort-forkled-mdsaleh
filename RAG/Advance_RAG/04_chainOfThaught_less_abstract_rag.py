@@ -1,97 +1,159 @@
-from dotenv import load_dotenv
-import os
 from openai import OpenAI
-from create_and_store_vector_embeddings import retriver
+import requests
+from dotenv import load_dotenv
+import json
+import os
+
+# from create_and_store_vector_embeddings import create_and_store_vector_embedding
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
+from langchain_qdrant import QdrantVectorStore
 
 load_dotenv()
 
-api_key = os.getenv("GEMINI_API_KEY")
-client = OpenAI(
-    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
-    api_key=api_key
-)
+""" Step 0 - Create and store vector embeddings of pdf document"""
+# create_and_store_vector_embedding(os.getcwd()+"/python_programming_book.pdf")
+# print("Injection done..")
 
 
+""" Step 1 - User gives prompt """
+user_query = input("Enter your prompt> ")
 
-""" 
-    Step 0 - Create and store vector embeddings of pdf document
-    Step 1 - User gives prompt
-    Step 2 - Create System prompt, and generate multiple user prompts
-    Step 3. Chaining of prompts and responses
-    Step 4. Use relevant subquery responses to generate response for original user query
+
+""" Step 2 - Create System prompt, and generate multiple user prompts"""
+system_prompt_generating_multiple_prompts = """
+You are a helpful AI assistant which help to create multiple user prompt based on given user prompt.
+
+Rules-
+1. Follow the strict JSON output as per output schema.
+2. Always perform one step at at time and time and wait for next input.
+3. Carefully analyze the user query.
+4. Based on user query create maximum 3 to 5 prompts.
+
+Output Format-
+[
+    {{
+    "prompt": "string", 
+    }},
+    {{
+    "prompt": "string", 
+    }},
+]
+
+Example -
+What is python programming?
+Output : [
+    {{"prompt": "what is python?"}},
+    {{"prompt": "what is promgramming?"}},
+    {{"prompt": "what is use of programming?}}
+]
+
 """
 
-def generate_different_user_prompt(user_input, num_variants=3):
-    SYSTEM_PROMPT = f"""
-    You are a highly intelligent AI assistant designed to generate diverse and semantically relevant rephrased user prompts.
-    Your goal is to improve document retrieval effectiveness by crafting multiple variants of a user's query.
+client_for_generating_multiple_prompts = OpenAI(
+    api_key=os.environ['API_KEY'],
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
+)
 
-    ### Objective
-    Given a single user prompt, generate **3 to 5 unique and meaningful prompts** that either:
-    - Rephrase the original query,
-    - Explore subtopics or components of the query,
-    - Provide alternative ways a user might express the same intent.
+messages = [
+    { "role": "system", "content": system_prompt_generating_multiple_prompts }
+]
 
-    ### Guidelines (Strictly Follow)
-    1. Avoid duplicate or semantically identical prompts.
-    2. Ensure each prompt is grammatically correct and focused on improving retrieval.
-    3. Maintain semantic alignment with the user's original intent.
-    4. Never make assumptions outside the scope of the user's query.
-    5. Always return **at least 3** and **no more than 5** prompts.
+messages.append({ "role": "user", "content": user_query })
+
+response = client_for_generating_multiple_prompts.chat.completions.create(
+    model="models/gemini-1.5-flash-001",
+    response_format={"type": "json_object"},
+    messages=messages
+)
+
+llm_generated_prompts = json.loads(response.choices[0].message.content)
+
+print("🧠 LLM Thinking...")
+print("LLM created these prompts for user query")
+print(llm_generated_prompts)
+
+
+
+""" Step 3. Chaining of prompts and responses"""
+embedder = GoogleGenerativeAIEmbeddings(
+    google_api_key=os.environ['API_KEY'],
+    model="models/text-embedding-004"
+)
+
+retriver = QdrantVectorStore.from_existing_collection(
+    url="http://localhost:6333",
+    collection_name="python_programming_book",
+    embedding=embedder
+)
+
+all_subquery_responses = ['']
+last_prompt = ''
+
+for subquery in llm_generated_prompts:
+    chunks = retriver.similarity_search(
+        query=subquery['prompt']
+    )
     
+    client_for_generating_response_for_subqueries = OpenAI(
+        api_key=os.environ['API_KEY'],
+        base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
+    )
+    
+    
+    # This below system prompt will have relevant chunks + last query and its response.
+    system_prompt_for_subqueries = f"""
+    You are an AI assistant which help to answer the question based on given context.
 
-    ### Workflow
-    1. Carefully analyze the given user query.
-    2. Break it down into logical parts if needed.
-    3. Consider synonyms, question transformations, or clarifying angles.
-    4. Generate diversified prompts.
-    5. Stop and wait for the next instruction.
+    Refere below relevant chunks and query with its response  to give answers:
+    Chunks -
+    {chunks}
+    
+    Last Query and response -
+    {last_prompt}
+    {all_subquery_responses[-1]}
 
-    Original Query: "{user_input}"
-
-    Rewrite this query in {num_variants} different ways:
-
-    ### Example Input
-    **User Prompt**: What is Python programming?
-
-    ### Example Output
-    1. What is Python?
-    2. Can you explain the basics of Python programming?
-    3. How does Python work as a programming language?
-    4. What are the key features of Python?
-    5. Why is Python popular for development?
     """
 
-    different_qurey = []
-    response = client.chat.completions.create(
-        model="gemini-2.0-flash",
+    response_for_subquery = client_for_generating_response_for_subqueries.chat.completions.create(
+        model="models/gemini-1.5-flash-001",
         messages=[
-            {"role": "system", "content": SYSTEM_PROMPT},
-            {"role": "user", "content": user_input}
+            {"role": "system", "content": system_prompt_for_subqueries},
+            {"role": "user", "content": subquery['prompt']}    
         ]
     )
+    
+    all_subquery_responses.append(response_for_subquery.choices[0].message.content)
+    last_prompt = subquery['prompt']
+    print("\n---------------------------------------------------------------------")
+    print("Subquery:", subquery['prompt'])
+    print("Response:", response_for_subquery.choices[0].message.content)
+    print("---------------------------------------------------------------------\n")
+    
 
-    different_qurey.append(response.choices[0].message.content)
-    # Split the first string into lines so we did different_query[0], remove 1234567890, and skip empty lines so we did line.strip()
-    cleaned_questions = [line.strip("1234567890.") for line in different_qurey[0].split('\n') if line.strip()]
 
-    return cleaned_questions
+""" Step 4. Use relevant subquery responses to generate response for original user query """
 
 
-def get_similar_chunks_from_document(user_input):
-    print("\n\n🔄 Generating query variations...\n")
-    ai_prompts = generate_different_user_prompt(user_input)
+system_prompt_for_original_user_query = f"""
+You are an AI assistant which help to answer the question based on given context.
 
-    print("\n\n📄 Generated queries:\n")
-    for prompt in ai_prompts:
-        print(prompt)
+Refere below context to give answers:
+{all_subquery_responses}
 
-    relevant_chunks_search = []
-    print("\n\n🔍 Retrieving relevant chunks for each query...\n")
-    for prompt in ai_prompts:
-        relevant_chunks = retriver.similarity_search(
-            query=prompt
-        )
-        relevant_chunks_search.append(relevant_chunks)
-    # print(relevant_chunks_search)
-    return relevant_chunks_search
+"""
+
+client_for_generating_response_for_original_query = OpenAI(
+    api_key=os.environ['API_KEY'],
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
+)
+
+response_for_original_user_query = client_for_generating_response_for_original_query.chat.completions.create(
+    model="models/gemini-1.5-flash-001",
+    messages=[
+        {"role": "system", "content": system_prompt_for_original_user_query},
+        {"role": "user", "content": user_query}    
+    ]
+)
+
+print("🧠 LLM Thinking...")
+print(response_for_original_user_query.choices[0].message.content)
