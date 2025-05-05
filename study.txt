@@ -71,3 +71,10 @@ https://min.io/
 https://www.langchain.com/langsmith
 https://langfuse.com/
 https://langfuse.com/self-hosting
+
+https://github.com/openai/openai-cookbook/blob/main/examples/gpt4-1_prompting_guide.ipynb
+
+https://www.promptingguide.ai/
+https://github.com/SesameAILabs/csm
+https://www.sesame.com/
+https://platform.openai.com/docs/guides/text-to-speech#streaming-realtime-audio
