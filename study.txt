@@ -78,3 +78,17 @@ https://www.promptingguide.ai/
 https://github.com/SesameAILabs/csm
 https://www.sesame.com/
 https://platform.openai.com/docs/guides/text-to-speech#streaming-realtime-audio
+
+
+
+https://github.com/patchy631/ai-engineering-hub
+https://www.dailydoseofds.com/p/mcp-powered-agentic-rag/
+https://www.dailydoseofds.com/p/hands-on-building-an-mcp-server/
+https://github.com/patchy631/ai-engineering-hub/tree/main/book-writer-flow
+https://github.com/patchy631/ai-engineering-hub/tree/main/llama-4-rag
+https://github.com/patchy631/ai-engineering-hub/tree/main/deepseek-multimodal-RAG
+https://github.com/patchy631/ai-engineering-hub/tree/main/qwen3-thinking-ui
+https://www.dailydoseofds.com/p/corrective-rag-agentic-workflow/
+https://www.dailydoseofds.com/p/build-a-reasoning-model-like-deepseek-r1/
+https://github.com/patchy631/ai-engineering-hub/tree/main/DeepSeek-finetuning
+https://www.dailydoseofds.com/p/rag-over-audio-files/
