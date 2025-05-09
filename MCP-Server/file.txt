@@ -1,0 +1,6 @@
+*************** IMPORTANT MUST READ *******************************************8
+    1. https://modelcontextprotocol.io/introduction
+    2. https://www.anthropic.com/news/model-context-protocol
+    3. https://modelcontextprotocol.io/docs/concepts/transports
+
+https://cursor.directory/
